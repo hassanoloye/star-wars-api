@@ -1,0 +1,22 @@
+{
+  "name": "star-wars-api",
+  "version": "1.0.0",
+  "description": "A NodeJS API to integrate with the star wars api https://swapi.dev",
+  "main": "dist/index.js",
+  "scripts": {
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hassanoloye/star-wars-api.git"
+  },
+  "keywords": [
+    "movies"
+  ],
+  "author": "Hassan Oyeboade <oyeboadehassan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hassanoloye/star-wars-api/issues"
+  },
+  "homepage": "https://github.com/hassanoloye/star-wars-api#readme"
+}
