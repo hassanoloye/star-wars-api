@@ -1,0 +1,9 @@
+{
+  "watch": [
+    "src/",
+    "config",
+    ".env",
+    "package.json"
+  ],
+  "ext": "js json yaml"
+}

@@ -1,0 +1,9 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Star Wars API
+  description: Official documentation for the Star Wars API Integration
+
+# Paths
+paths:
+
