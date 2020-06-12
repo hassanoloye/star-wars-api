@@ -1,6 +1,7 @@
 {
   "watch": [
     "src/",
+    "docs",
     "config",
     ".env",
     "package.json"

@@ -4,6 +4,156 @@ info:
   title: Star Wars API
   description: Official documentation for the Star Wars API Integration
 
+# Tags
+tags:
+  - name: Characters
+    description: Characters
+  - name: Films
+    description: Films
+
 # Paths
 paths:
+  /characters:
+    get:
+      tags:
+        - Characters
+      summary: Get list of characters
+      description: Return a list of characters
+      parameters:
+        - name: gender
+          description: Limit records to those of specified gender
+          in: query
 
+        - name: orderBy
+          description: Order records (in ascending/descending order) by provided fields
+          in: query
+      responses:
+        "200":
+          $ref: "#/components/responses/CharactersListSuccess"
+
+  /films:
+    get:
+      tags:
+        - Films
+      summary: Get list of films
+      description: Return list of films
+      responses:
+        "200":
+          $ref: "#/components/responses/FilmsListSuccess"
+
+components:
+  schemas:
+    Character:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Luke Skywalker
+        height:
+          type: string
+          example: 172
+        mass:
+          type: string
+          example: 77
+        hair_color:
+          type: string
+          example: blond
+        skin_color:
+          type: string
+          example: fair
+        eye_color:
+          type: string
+          example: blue
+        birth_year:
+          type: string
+          example: 19BBY
+        gender:
+          type: string
+          example: male
+        created:
+          type: string
+          example: 2014-12-10T14:23:31.880000Z
+        edited:
+          type: string
+          example: 2014-12-10T14:23:31.880000Z
+        url:
+          type: string
+          example: http://swapi.dev/api/people/1/
+
+
+    Film:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        title:
+          type: string
+          example: A New Hope
+        opening_crawl:
+          type: string
+          example: It is a period of civil war.\r\nRebel spaceships, striking\r\nfrom a hidden base, have won\r\ntheir first victory against\r\nthe evil Galactic Empire.\r\n\r\nDuring the battle, Rebel\r\nspies managed to steal secret\r\nplans to the Empire's\r\nultimate weapon, the DEATH\r\nSTAR, an armored space\r\nstation with enough power\r\nto destroy an entire planet.\r\n\r\nPursued by the Empire's\r\nsinister agents, Princess\r\nLeia races home aboard her\r\nstarship, custodian of the\r\nstolen plans that can save her\r\npeople and restore\r\nfreedom to the galaxy....
+        release_date:
+          type: string
+          example: 2014-01-01
+        created:
+          type: string
+          example: 2014-12-10T14:23:31.880000Z
+        edited:
+          type: string
+          example: 2014-12-10T14:23:31.880000Z
+        url:
+          type: string
+          example: http://swapi.dev/api/films/1/
+        comments_count:
+          type: string
+          example: 0
+
+  responses:
+    FilmsListSuccess:
+      description: List of films
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                example: 10
+              next:
+                type: string
+                example: http://swapi.dev/api/films/?page=3
+              previous:
+                type: string
+                example: http://swapi.dev/api/films/?page=1
+              results:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Film"
+
+    CharactersListSuccess:
+      description: List of characters
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                example: 10
+              next:
+                type: string
+                example: http://swapi.dev/api/people/?page=3
+              previous:
+                type: string
+                example: http://swapi.dev/api/people/?page=1
+              results:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Character"
+              results_count:
+                type: number
+                example: 5
+              results_total_height:
+                type: string
+                example: 917 cm (30 feet 1.02 inches)
