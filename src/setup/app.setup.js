@@ -1,6 +1,8 @@
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
+import {ValidationError} from "express-validation"
+
 
 import routes from "../routes";
 
@@ -18,6 +20,10 @@ export default function (app) {
     console.log(err);
 
     let error;
+    if (err instanceof ValidationError) {
+      return res.status(err.statusCode).json(err)
+    }
+
     if (err.name === "SequelizeUniqueConstraintError") {
       error = err.errors[0].message.replace("must be unique", "already exist");
       res.statusMessage = error;

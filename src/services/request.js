@@ -1,6 +1,6 @@
 import request from "request-promise-native"
 
-const methodTypes = {
+export const methodTypes = {
   GET: 'get',
   POST: 'post',
   PUT: 'put',
