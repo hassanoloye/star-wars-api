@@ -2,6 +2,7 @@
   "watch": [
     "src/",
     "docs",
+    "db",
     "config",
     ".env",
     "package.json"
