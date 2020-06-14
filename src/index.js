@@ -1,9 +1,8 @@
 import express from "express";
-import dotenv from "dotenv";
-
-dotenv.config()
+import "dotenv/config";
 
 import setupApp from "./setup/app.setup";
+import "./setup/sequelize.setup";
 
 const app = express();
 setupApp(app);

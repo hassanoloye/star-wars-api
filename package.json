@@ -26,7 +26,8 @@
     "@babel/core": "^7.10.2",
     "@babel/node": "^7.10.1",
     "@babel/plugin-transform-runtime": "^7.10.1",
-    "@babel/preset-env": "^7.10.2"
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1"
   },
   "dependencies": {
     "ajv": "^6.12.2",
@@ -39,8 +40,12 @@
     "http-errors": "^1.7.3",
     "lodash": "^4.17.15",
     "morgan": "^1.10.0",
+    "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
     "request": "^2.88.2",
     "request-promise-native": "^1.0.8",
+    "sequelize": "^5.21.12",
+    "sequelize-cli": "^5.5.1",
     "swagger-ui-express": "^4.1.4",
     "yamljs": "^0.3.0"
   }
