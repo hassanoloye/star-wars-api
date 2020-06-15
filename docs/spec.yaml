@@ -10,9 +10,44 @@ tags:
     description: Characters
   - name: Films
     description: Films
+  - name: Comments
+    description: Comments
 
 # Paths
 paths:
+  /comments:
+    get:
+      tags:
+        - Comments
+      summary: Get list of comments
+      description: Return a list of comments
+      parameters:
+        - name: $limit
+          description: Limit number of returned records
+          in: query
+
+        - name: $offset
+          description: Skip over the specified number of records
+          in: query
+      responses:
+        "200":
+          $ref: "#/components/responses/CommentsListSuccess"
+    post:
+      tags:
+        - Comments
+      summary: Add a new comment
+      requestBody:
+        description: Comment details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreate'
+
+      responses:
+        "201":
+          $ref: "#/components/responses/CommentsCreateSuccess"
+
   /characters:
     get:
       tags:
@@ -43,6 +78,32 @@ paths:
 
 components:
   schemas:
+    CommentCreate:
+      type: object
+      properties:
+        text:
+          type: string
+          example: Nice movie
+        filmId:
+          type: string
+          example: 1
+    Comment:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: number
+              example: 1
+            userIpAddress:
+              type: string
+              example: 127.0.0.1
+            createdAt:
+              type: string
+              example: "2020-06-15T13:54:58.308Z"
+            updatedAt:
+              type: string
+              example: "2020-06-15T14:24:51.132Z"
+        - $ref: "#/components/schemas/CommentCreate"
     Character:
       type: object
       properties:
@@ -157,3 +218,25 @@ components:
               results_total_height:
                 type: string
                 example: 917 cm (30 feet 1.02 inches)
+
+    CommentsListSuccess:
+      description: List of comments
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                example: 10
+              results:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+
+    CommentsCreateSuccess:
+      description: Created comment
+      content:
+        "application/json":
+          schema:
+            $ref: "#/components/schemas/Comment"
