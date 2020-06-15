@@ -9,5 +9,7 @@ RUN npm install -g nodemon
 
 COPY . ./
 
+RUN npm run build
+
 EXPOSE 8008
 CMD ["sh", "-c", "node dist/index.js"]
