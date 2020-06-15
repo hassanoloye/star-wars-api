@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_DB=starwars
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+  web:
+    build: .
+    command: ['sh', '-c', 'npm run dev']
+    volumes:
+      - .:/app
+      - /app/node_modules/
+    ports:
+      - "5123:5123"
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@database:5432/starwars
+
