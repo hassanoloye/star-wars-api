@@ -1,7 +1,9 @@
 import _ from "lodash";
+import Sequelize from "sequelize"
 
 import RequestService from './request';
 import {centimetersToFeetAndInches} from "../utils/converter"
+import {comment} from '../../db/models'
 
 const config = require("config");
 
@@ -17,9 +19,22 @@ export default class StarWarsService {
 
   static async getFilms() {
     const response = await request.get('/films')
+    const film_comments_count = await comment.unscoped().findAll({
+      attributes: [
+        'filmId',
+        [Sequelize.fn('count', Sequelize.col('comment.id')), 'commentsCount']
+      ],
+      group: ['filmId'],
+      raw: true,
+    });
+
+    const filmsToCommentsCountMap = _.mapValues(_.keyBy(film_comments_count, 'filmId'), 'commentsCount')
     return {
       ...response,
-      results: _.orderBy(_.map(response.results, StarWarsService.formatFilmRecord), filmSortFields)
+      results: _.orderBy(
+        response.results.map((record) => this.formatFilmRecord(record, filmsToCommentsCountMap)),
+        filmSortFields
+      )
     }
   }
 
@@ -42,15 +57,16 @@ export default class StarWarsService {
       ...response,
       results,
       results_count: results.length,
-      results_total_height: StarWarsService.formatCharacterHeight(_.sumBy(results, (record) => _.toNumber(record.height)))
+      results_total_height: this.formatCharacterHeight(_.sumBy(results, (record) => _.toNumber(record.height)))
     };
   }
 
-  static formatFilmRecord(record) {
+  static formatFilmRecord(record, filmsToCommentsCountMap) {
+    const recordId = this.getFilmIdFromUrl(record.url)
     return {
-      id: StarWarsService.getFilmIdFromUrl(record.url),
+      id: recordId,
       ..._.pick(record, ['title', 'opening_crawl', 'release_date', 'created', 'edited', 'url']),
-      comments_count: 0
+      comments_count: _.toNumber(_.get(filmsToCommentsCountMap, recordId, 0))
     }
   }
 
