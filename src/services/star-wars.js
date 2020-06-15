@@ -38,7 +38,7 @@ export default class StarWarsService {
     }
   }
 
-  static async getCharacters(gender, orderBy) {
+  static async getCharacters({gender, orderBy, filmId}) {
     const response = await request.get('/people');
     let results = response.results;
 
@@ -53,6 +53,12 @@ export default class StarWarsService {
       results = _.orderBy(results, [orderingField], [orderingType])
     }
 
+    results = results.map((record) => this.formatCharacterRecord(record))
+
+    if (filmId) {
+      results = results.filter(record => record.films_id.includes(_.toNumber(filmId)))
+    }
+
     return {
       ...response,
       results,
@@ -62,7 +68,7 @@ export default class StarWarsService {
   }
 
   static formatFilmRecord(record, filmsToCommentsCountMap) {
-    const recordId = this.getFilmIdFromUrl(record.url)
+    const recordId = this.getRecordIdFromUrl(record.url)
     return {
       id: recordId,
       ..._.pick(record, ['title', 'opening_crawl', 'release_date', 'created', 'edited', 'url']),
@@ -70,7 +76,16 @@ export default class StarWarsService {
     }
   }
 
-  static getFilmIdFromUrl(recordUrl) {
+  static formatCharacterRecord(record) {
+    return {
+      ...record,
+      id: this.getRecordIdFromUrl(record.url),
+      films_id: record.films.map(filmUrl => this.getRecordIdFromUrl(filmUrl))
+    }
+  }
+
+
+  static getRecordIdFromUrl(recordUrl) {
     return _.toNumber(recordUrl.match(/(\d)+/g)[0])
   }
 

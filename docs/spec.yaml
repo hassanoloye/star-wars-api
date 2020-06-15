@@ -62,6 +62,10 @@ paths:
         - name: orderBy
           description: Order records (in ascending/descending order) by provided fields
           in: query
+
+        - name: filmId
+          description: Limit records to those for a particular film
+          in: query
       responses:
         "200":
           $ref: "#/components/responses/CharactersListSuccess"

@@ -8,6 +8,7 @@ export default function validateRequest(schema) {
   return function (req, res, next) {
     const data = (req.method.toLowerCase() === methodTypes.GET || req.method === methodTypes.DELETE) ? req.query : req.body;
 
+    console.log(schema)
     const result = ajv.validate(schema, data);
 
     if (!result) {
